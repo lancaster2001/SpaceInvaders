@@ -1,21 +1,51 @@
 import java.awt.image.BufferedImage;
 
-public interface Projectile {
+public abstract class Projectile {
+    protected int[] coordinates = {0,0}; //{x,y}
+    protected BufferedImage image;
+    protected boolean exists = true;
 
-    void setX(int x);
+    protected int moveSpeed;
+    protected char direction;
 
-    void setY(int y);
+    void setX(int x){};
 
-    int getX();
+    void setY(int y){};
 
-    int getY();
+    public int getX() {return coordinates[0];}
+    public int getY() {return coordinates[1];}
+    private void hasHit() {
+        exists = false;
+    }
 
-    void hasHit();
+    private void collisionDetection(){}
+    public void move(){
+        switch (direction) {
+            case gameConstants.up -> {
+                if (coordinates[1] - moveSpeed >= 0 ){
+                    coordinates[1] -= moveSpeed;
+                }else{
+                    exists = false;
+                }
+            }
+            case gameConstants.down ->{
+            if (coordinates[1] + moveSpeed < gameConstants.screenSize.height){
+                coordinates[1] += moveSpeed;
+            }else{
+                exists = false;
+            }
+        }
+        default -> System.out.println("projectile could not move");
+    };
+    collisionDetection();
+    }
 
-    boolean shouldDisplay();
+    public boolean shouldDisplay() {
+        return exists;
+    }
 
-    BufferedImage getImage();
+    public BufferedImage getImage() {return image;}
 
-    int getWidth();
-    int getHeight();
+    int getWidth(){return image.getWidth();}
+    int getHeight(){return image.getHeight();}
 }

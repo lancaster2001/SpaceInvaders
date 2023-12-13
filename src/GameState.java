@@ -17,6 +17,8 @@ public class GameState {
     private static final Player playerInstance = Player.getInstance();//singleton instance of Player
     private final MainPanel panelInstance = MainPanel.getInstance();
     private final InvaderManager invaderManagerInstance = InvaderManager.getInstance();
+    private static final ProjectileManager ProjectileManagerInstance = ProjectileManager.getInstance();
+    private final MainFrame frameInstance = MainFrame.getInstance();//needed so that frame generates
 
 
 
@@ -28,20 +30,6 @@ public class GameState {
         setup();
     }
     private void setup(){
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                final MainFrame frame = MainFrame.getInstance();
-                frame.setTitle("Space Invaders Assignment 1");
-                frame.setResizable(false);
-                frame.setSize(gameConstants.screenSize.width, gameConstants.screenSize.height);
-                frame.setMinimumSize(new Dimension(gameConstants.screenSize.width, gameConstants.screenSize.height));
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.getContentPane().add(frame.draw);
-                frame.pack();
-                frame.setVisible(true);
-            }
-        });
-
 
         highscore = getHighscore();
         gameTimer = new Timer();
@@ -54,6 +42,7 @@ public class GameState {
     private void doGameCycle(){
 
         invaderManagerInstance.doCycle();
+        ProjectileManagerInstance.doCycle();
 
         TimerTask task = new TimerTask() {
             public static int i = 0;
@@ -61,11 +50,12 @@ public class GameState {
             public void run() {
                 System.out.println("Timer ran " + ++i);
                 doGameCycle();
+                panelInstance.repaint();
             }
         };
         gameTimer.schedule(task,gameConstants.tickLength );
 
-        panelInstance.repaint();
+
     }
 
 

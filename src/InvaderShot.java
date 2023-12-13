@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class InvaderShot implements DisplayObject, Projectile {
+public class InvaderShot extends Projectile implements DisplayObject {
     private int[] coordinates = {0,0}; //{x,y}
     private BufferedImage image;
     private boolean exists = true;

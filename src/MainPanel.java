@@ -11,7 +11,7 @@ public final class MainPanel extends JPanel {
     private static MainPanel instance;
     private final Player playerInstance = Player.getInstance();
     private final InvaderManager invaderManagerInstance = InvaderManager.getInstance();
-    private static final ProjectileManager ProjectileManagerInstance = ProjectileManager.getInstance();
+    private final ProjectileManager ProjectileManagerInstance = ProjectileManager.getInstance();
 
     public static MainPanel getInstance() {
         if (instance == null) {

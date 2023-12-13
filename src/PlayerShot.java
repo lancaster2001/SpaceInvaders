@@ -3,22 +3,27 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class PlayerShot implements DisplayObject, Projectile {
-    private int[] coordinates = {0,0}; //{x,y}
-    private BufferedImage image;
-    private boolean exists = true;
+public class PlayerShot extends Projectile implements DisplayObject {
 
     public PlayerShot(int x, int y){
         coordinates[0] = x;
         coordinates[1] = y;
+        moveSpeed = gameConstants.playerProjectileMoveSpeed;
+        direction = gameConstants.up;
+
+
 
         try{
             image = ImageIO.read(new File(gameConstants.playerProjectileImage));
         } catch (IOException e){
-
+            System.out.println("there was an error in reading the player projectile image");
         }
     }
 
+
+    private void collisionDetection(){
+
+    }
 
     public boolean shouldDisplay() {
         return exists;
@@ -47,10 +52,6 @@ public class PlayerShot implements DisplayObject, Projectile {
 
     public void setY(int y) {
         coordinates[1] = y;
-    }
-
-    public void move(){
-        coordinates[1] += gameConstants.playerProjectileMoveSpeed;
     }
 
 

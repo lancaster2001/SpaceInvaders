@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class InvaderManager {
-    private static ArrayList<invader>  invaderArray = new ArrayList<invader>();
+        private static ArrayList<invader>  invaderArray = new ArrayList<invader>();
     private static final invaderFactory invaderFactoryInstance = invaderFactory.getInstance();//singleton instance of invader factory
     private boolean invadersGoingRight = true; //true for going right
     private static InvaderManager instance;

@@ -38,7 +38,7 @@ public interface gameConstants{
         String playerImage = "src/images/player.png";
         int playerWidth = 100;
         int playerHeight = 100;
-        String playerProjectileImage = "src/images/playerProjectile.png";
+        String playerProjectileImage = "src/images/test.png";
         String playerProjectileID = "yep this sure is a player shot";
         int playerProjectileHeight = 50;
         int playerProjectileWidth = 20;
@@ -50,4 +50,5 @@ public interface gameConstants{
         char right = 'd';
         char shoot = ' ';
         char down = 's';
+        char up = 'w';
 }

@@ -1,8 +1,7 @@
-import javax.swing.*;
-import java.awt.*;
+
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner; // Import the Scanner class to read text files
@@ -11,6 +10,7 @@ import java.util.TimerTask;
 
 
 public class GameState {
+    private static GameState instance;
     private int score;
     private static int highscore;
     private Timer gameTimer;
@@ -21,7 +21,12 @@ public class GameState {
     private final MainFrame frameInstance = MainFrame.getInstance();//needed so that frame generates
 
 
-
+    public static GameState getInstance() {
+        if(instance == null) {
+            instance = new GameState();
+        }
+        return instance;
+    }
 
     public static void main(String[] args){
         new GameState();

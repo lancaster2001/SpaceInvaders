@@ -8,10 +8,10 @@ public final class Player implements DisplayObject {
     private static Integer lives = 3;
     private int score = 0;
     private BufferedImage image;
-    //private  final GameState gameInstance = GameState.getInstance();//calling this causes an error
+
     private int[] coordinates = {(gameConstants.screenSize.width/2),gameConstants.killHeight};
     //private int[] coordinates = {(gameConstants.screenSize.width/2),(gameConstants.screenSize.height-(gameConstants.screenSize.height/20))};//{x,y}
-    private static final ProjectileManager ProjectileManagerInstance = ProjectileManager.getInstance();
+    private static final GameState gameinstance = GameState.getInstance();
 
     private Player() {
         System.out.println("make sure you only print this once for player");
@@ -37,8 +37,8 @@ public final class Player implements DisplayObject {
     }
     
     public void shoot(){
-        int xval = getX()+((gameConstants.playerWidth-gameConstants.playerProjectileWidth)/2);
-        ProjectileManagerInstance.createProjectile(gameConstants.playerProjectileID, xval, getY());
+        int xval = (getX()+(gameConstants.playerWidth-gameConstants.playerProjectileWidth)/2);
+        gameinstance.createProjectile(gameConstants.playerProjectileID, xval, coordinates[1]);
     }
 
     public void addScore(int points){

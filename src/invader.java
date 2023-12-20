@@ -1,11 +1,14 @@
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public abstract class invader implements DisplayObject {
     private int[] coordinates = {0,0};// {x,y}
     private boolean alive = true;
-    private BufferedImage image;
-    private String imageLink;
-    private int value = 0;
+    protected BufferedImage image;
+    protected String imageLink;
+    protected int value = 0;
 
 
     public BufferedImage getImage() {
@@ -54,6 +57,17 @@ public abstract class invader implements DisplayObject {
         }
 
     }
+    protected void loadImage(){
+        try{image = ImageIO.read(new File(imageLink));} catch (IOException e){
+            System.out.println("error getting small invader image");
+        }
+    }
+    public int Kill(){
+        alive = false;
+        return value;
+    }
+
+
 
 
 

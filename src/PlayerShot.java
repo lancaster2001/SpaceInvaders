@@ -1,5 +1,4 @@
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -25,24 +24,11 @@ public class PlayerShot extends Projectile implements DisplayObject {
 
     }
 
-    public boolean shouldDisplay() {
-        return exists;
-    }
-
 
     public void hasHit() {
         exists = false;
     }
 
-
-    public int getX() {
-        return coordinates[0];
-    }
-
-
-    public int getY() {
-        return coordinates[1];
-    }
 
 
     public void setX(int x) {
@@ -52,11 +38,6 @@ public class PlayerShot extends Projectile implements DisplayObject {
 
     public void setY(int y) {
         coordinates[1] = y;
-    }
-
-
-    public BufferedImage getImage() {
-        return image;
     }
 
 

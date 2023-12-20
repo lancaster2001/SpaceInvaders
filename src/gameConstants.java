@@ -4,9 +4,12 @@ import java.awt.event.KeyEvent;
 public interface gameConstants{
         //save
         String highscore = "highscore.txt";
-        int tickLength = 1000;
+        int tickLength = 800;
         //screen values
-        Dimension screenSize = new Dimension(1920,1080);
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int screenWidth = gd.getDisplayMode().getWidth();
+        int screenHeight = gd.getDisplayMode().getHeight();
+        Dimension screenSize = new Dimension(screenWidth,screenHeight);
 
         //audio links
         String playerShootAudio = "src/audio/shoot.wav";
@@ -14,10 +17,9 @@ public interface gameConstants{
 
 
         //invader values
-        int killHeight = 700;
         String[] invaderOrder = {"SMALL","MEDIUM","LARGE"};
         double invaderMoveTimer = 3.0;
-        int invaderMoveSpeed = 200;
+        int invaderMoveSpeed = screenWidth/10-1;
         int numberOfInvaders = 30;
         int smallInvaderValue = 100;
         int mediumInvaderValue = 300;
@@ -31,7 +33,7 @@ public interface gameConstants{
         String invaderProjectileID = "yep this sure is an invader shot";
         int invaderProjectileHeight = 50;
         int invaderProjectileWidth = 20;
-        int invaderProjectileMoveSpeed = 100;//must be smaller than player height
+        int invaderProjectileMoveSpeed = screenHeight/20;//must be smaller than player height else projectile may skip over some invaders
 
         //Player values
         int playerMoveSpeed = 10;
@@ -42,7 +44,8 @@ public interface gameConstants{
         String playerProjectileID = "yep this sure is a player shot";
         int playerProjectileHeight = 50;
         int playerProjectileWidth = 20;
-        int playerProjectileMoveSpeed = 100;//must be smaller than invader height
+        int playerProjectileMoveSpeed = screenHeight/20;//must be smaller than invader height
+        int killHeight = screenSize.height-playerHeight-100;
 
 
         //controls

@@ -18,7 +18,12 @@ public abstract class Projectile {
         exists = false;
     }
 
-    private void collisionDetection(){}
+    public boolean collisionDetection(int trgtx,int trgty, int trgtWidth, int trgtHeight){
+        if (getX() <( trgtx+trgtWidth) && (getX()+getWidth()-1) > trgtx && getY() < (trgty+trgtHeight-1) && (getY()+getHeight()-1) > trgty){
+            return true;
+        }
+        return false;
+    }
     public void move(){
         switch (direction) {
             case gameConstants.up -> {
@@ -37,9 +42,7 @@ public abstract class Projectile {
         }
         default -> System.out.println("projectile could not move");
     };
-    collisionDetection();
     }
-
     public boolean shouldDisplay() {
         return exists;
     }

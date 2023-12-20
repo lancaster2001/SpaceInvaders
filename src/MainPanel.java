@@ -10,8 +10,8 @@ import java.util.Timer;
 public final class MainPanel extends JPanel {
     private static MainPanel instance;
     private final Player playerInstance = Player.getInstance();
-    private final InvaderManager invaderManagerInstance = InvaderManager.getInstance();
-    private final ProjectileManager ProjectileManagerInstance = ProjectileManager.getInstance();
+
+
 
     public static MainPanel getInstance() {
         if (instance == null) {
@@ -23,16 +23,18 @@ public final class MainPanel extends JPanel {
         this.setSize(gameConstants.screenSize.width, gameConstants.screenSize.height);
         this.setMinimumSize(new Dimension(600, 600));
         this.setVisible(true);
-
     }
 
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        final GameState gameInstance = GameState.getInstance();
+        ArrayList<invader> invaderArray = gameInstance.getInvaderArray();
+        ArrayList<Projectile> projectiles = gameInstance.getProjectiles();
         drawPlayer(g);
-        drawInvaders(g);
-        drawProjectiles(g);
+        drawInvaders(g, invaderArray);
+        drawProjectiles(g, projectiles);
     }
 
     private void drawPlayer(Graphics g) {
@@ -41,22 +43,22 @@ public final class MainPanel extends JPanel {
             System.out.println(playerInstance.getX()+","+ playerInstance.getY()+","+ playerInstance.getWidth()+","+ playerInstance.getHeight());
         }
     }
-    private void drawInvaders(Graphics g){
-        ArrayList<invader> invaderArray = invaderManagerInstance.getInvaderArray();
+    private void drawInvaders(Graphics g,ArrayList<invader> invaderArray){
+
         if (invaderArray != null){
             for (invader sprites : invaderArray){
-                if (sprites.getImage() != null){
+                if ((sprites.getImage() != null)&&(sprites.shouldDisplay())){
                     g.drawImage(sprites.getImage(), sprites.getX(), sprites.getY(), sprites.getWidth(), sprites.getHeight(), this);
                 }
             }
         }
     }
 
-    private void drawProjectiles(Graphics g) {
-        ArrayList<Projectile> projectiles = ProjectileManagerInstance.getProjectiles();
+    private void drawProjectiles(Graphics g,ArrayList<Projectile> projectiles) {
+        //ArrayList<Projectile> projectiles = gameInstance.getProjectiles();
         if (projectiles != null){
             for (Projectile sprites : projectiles){
-                if (sprites.getImage() != null){
+                if ((sprites.getImage() != null)&&(sprites.shouldDisplay())){
                     g.drawImage(sprites.getImage(), sprites.getX(), sprites.getY(), sprites.getWidth(), sprites.getHeight(), this);
                 }
             }

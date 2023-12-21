@@ -3,9 +3,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.*;
 
-public final class MainFrame extends JFrame implements KeyListener{
+public final class MainFrame extends JFrame{
     public JComponent draw = new JComponent(){};
-    private final Player playerInstance = Player.getInstance();
     private static final MainPanel panelInstance = MainPanel.getInstance();//singleton instance of jpanel on the mainframe
     private static MainFrame instance;
     public static MainFrame getInstance() {
@@ -13,22 +12,6 @@ public final class MainFrame extends JFrame implements KeyListener{
             instance = new MainFrame();
         }
         return instance;
-    }
-
-    public void keyPressed(KeyEvent e) {
-        if((e.getKeyChar() == gameConstants.left) || (e.getKeyChar() == gameConstants.right)){
-            playerInstance.move(e.getKeyChar());
-        }else if(e.getKeyChar() == gameConstants.shoot){
-            playerInstance.shoot();
-        }
-            panelInstance.repaint();
-    }
-
-    public void keyReleased(KeyEvent e) {
-
-    }
-    public void keyTyped(KeyEvent e) {
-
     }
 
     private MainFrame(){
@@ -40,7 +23,7 @@ public final class MainFrame extends JFrame implements KeyListener{
         this.getContentPane().add(this.draw);
         this.pack();
         this.setVisible(true);
-        addKeyListener(this);
+        addKeyListener(KeyDetector.getInstance());
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         this.add(panelInstance);

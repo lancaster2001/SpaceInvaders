@@ -1,1 +1,16 @@
-factory
+audioplayer.java            single responsibility
+displayobject.java
+gameconstants.java
+gamestate.java              singleton
+invader.java                factory
+invaderfactory.java         factory
+invadershot.java            factory
+largeinvader.java           factory, Open/Closed Principle
+mainframe.java              singleton
+mainpanel.java              singleton
+meniuminvader.java          factory, Open/Closed Principle
+player.java                 singleton
+playershot.java             factory
+projectile.java             factory
+projectilefactory.java      factory, singleton
+smallinvadder.java          factory, Open/Closed Principle

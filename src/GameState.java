@@ -38,7 +38,7 @@ public class GameState {
         instance.setup();
 
     }
-    public GameState(){
+    public  GameState(){
     }
 
     private void setup(){
@@ -52,7 +52,7 @@ public class GameState {
         doGameCycle();
     }
 
-    public void invaderSetup(){
+    public final void invaderSetup(){
         //build array of invaders with each line being a different type of invader
         for (int i = 0; i < gameConstants.numberOfInvaders; i++){
             //creates new object for invaders assigns tier of invader based on rows
@@ -86,7 +86,7 @@ public class GameState {
 
     }
 
-    public void invaderDoCycle(){
+    public final void invaderDoCycle(){
         int rowLength = (gameConstants.numberOfInvaders/gameConstants.invaderOrder.length);
         if (((invaderArray.get(rowLength-1).getX() + gameConstants.invaderWidth + gameConstants.invaderMoveSpeed) <= gameConstants.screenSize.width)&& invadersGoingRight == true){
             for (int i = 0; i < gameConstants.numberOfInvaders; i++){
@@ -116,7 +116,7 @@ public class GameState {
             }
         }
     }
-    public void projectileDoCycle(){
+    public final void projectileDoCycle(){
 
         projectilesArray.forEach(p -> {
             if (p.shouldDisplay()){
@@ -128,14 +128,14 @@ public class GameState {
                 if (p.shouldDisplay()&&i.shouldDisplay()) {
                     if ((p.getClass() == PlayerShot.class) && (p.collisionDetection(i.getX(), i.getY(), i.getWidth(), i.getHeight()))) {
                         score += i.Kill();
-                        ((PlayerShot) p).hasHit();
+                        p.hasHit();
                     }
                 }
             });
         });
     }
 
-    public void createProjectile(String type, int x, int y){
+    public final void createProjectile(String type, int x, int y){
         projectilesArray.add(projectilesArray.size(), projectileFactoryInstance.makeProjectile(type, x, y));
         if(type.equals(gameConstants.playerProjectileID)){
             AudioPlayer.playAudio(gameConstants.playerShootAudio);
@@ -143,7 +143,7 @@ public class GameState {
     }
 
 
-    public void endGame(){
+    public final void endGame(){
         gameTimer.purge();
                 try {
                     FileWriter myWriter = new FileWriter(gameConstants.highscore);
@@ -175,10 +175,10 @@ public class GameState {
         }
         return 99999;
     }
-    public ArrayList<invader> getInvaderArray() {
+    public final ArrayList<invader> getInvaderArray() {
         return invaderArray;
     }
-    public ArrayList<Projectile> getProjectiles(){
+    public final ArrayList<Projectile> getProjectiles(){
         return projectilesArray;
     }
 }

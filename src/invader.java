@@ -11,43 +11,43 @@ public abstract class invader implements DisplayObject {
     protected int value = 0;
 
 
-    public BufferedImage getImage() {
+    public final BufferedImage getImage() {
         return image;
     }
 
 
-    public int getX() {
+    public final int getX() {
         return coordinates[0];
     }
 
 
-    public int getY() {
+    public final int getY() {
         return coordinates[1];
     }
 
 
-    public int getHeight() {
+    public final int getHeight() {
         return gameConstants.invaderHeight;
     }
 
 
-    public int getWidth() {
+    public final int getWidth() {
         return gameConstants.invaderWidth;
     }
 
 
-    public boolean shouldDisplay() {
+    public final boolean shouldDisplay() {
         return alive;
     }
 
-    public void setX(int X){
+    public final void setX(int X){
         coordinates[0] = X;
     }
-    public void setY(int Y){
+    public final void setY(int Y){
         coordinates[1] = Y;
     }
 
-    public void move(char direction){
+    public final void move(char direction){
         if (direction == gameConstants.left){
             coordinates[0] -= gameConstants.invaderMoveSpeed;
         } else if (direction == gameConstants.right) {
@@ -57,12 +57,12 @@ public abstract class invader implements DisplayObject {
         }
 
     }
-    protected void loadImage(){
+    protected final void loadImage(){
         try{image = ImageIO.read(new File(imageLink));} catch (IOException e){
             System.out.println("error getting small invader image");
         }
     }
-    public int Kill(){
+    public final int Kill(){
         alive = false;
         return value;
     }

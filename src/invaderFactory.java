@@ -6,7 +6,7 @@ public class invaderFactory {
         }
         return instance;
     }
-    public invader getInvader(String invaderType){
+    public final invader getInvader(String invaderType){
         if(invaderType == null){
             return null;
         }

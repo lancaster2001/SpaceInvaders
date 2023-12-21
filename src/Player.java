@@ -29,14 +29,14 @@ public final class Player implements DisplayObject {
         }
         return instance;
     }
-    public void hit(){
+    public final void hit(){
         lives -= 1;
         if(lives == 0){
             //todo
         }
     }
     
-    public void shoot(){
+    public final void shoot(){
         int xval = (getX()+(gameConstants.playerWidth-gameConstants.playerProjectileWidth)/2);
         gameinstance.createProjectile(gameConstants.playerProjectileID, xval, coordinates[1]);
     }

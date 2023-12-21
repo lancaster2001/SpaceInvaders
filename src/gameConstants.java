@@ -1,5 +1,5 @@
 import java.awt.*;
-import java.awt.event.KeyEvent;
+
 
 public interface gameConstants{
         //save
@@ -14,6 +14,9 @@ public interface gameConstants{
         //audio links
         String playerShootAudio = "src/audio/shoot.wav";
         String bumpaudio = "src/audio/bump.wav";
+        String gameOver = "src/audio/gameOver.wav";
+        String playerDeath = "src/audio/playerDeath.wav";
+        String invaderDeath = "src/audio/invaderkilled.wav";
 
 
         //invader values

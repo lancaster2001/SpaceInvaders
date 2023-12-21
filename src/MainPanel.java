@@ -1,11 +1,6 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Timer;
 
 public final class MainPanel extends JPanel {
     private static MainPanel instance;
@@ -40,7 +35,7 @@ public final class MainPanel extends JPanel {
     private void drawPlayer(Graphics g) {
         if (playerInstance.shouldDisplay()) {
             g.drawImage(playerInstance.getImage(), playerInstance.getX(), playerInstance.getY(), playerInstance.getWidth(), playerInstance.getHeight(), null);
-            System.out.println(playerInstance.getX()+","+ playerInstance.getY()+","+ playerInstance.getWidth()+","+ playerInstance.getHeight());
+           // System.out.println(playerInstance.getX()+","+ playerInstance.getY()+","+ playerInstance.getWidth()+","+ playerInstance.getHeight());
         }
     }
     private void drawInvaders(Graphics g,ArrayList<invader> invaderArray){

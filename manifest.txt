@@ -1,16 +1,19 @@
 audioplayer.java            single responsibility
 displayobject.java
+endgamestate.java           singleton
 gameconstants.java
-gamestate.java              singleton
-invader.java                factory
-invaderfactory.java         factory
-invadershot.java            factory
-largeinvader.java           factory, Open/Closed Principle
-mainframe.java              singleton
-mainpanel.java              singleton
-meniuminvader.java          factory, Open/Closed Principle
-player.java                 singleton
-playershot.java             factory
-projectile.java             factory
+gamestate.java              singleton, Open/Closed Principle
+invader.java                factory, Open/Closed Principle
+invaderfactory.java         factory, Open/Closed Principle
+invadershot.java            factory, single responsibility
+keydetector.java            singleton, single responsibility
+largeinvader.java           factory
+mainframe.java              singleton, single responsibility
+mainpanel.java              singleton, single responsibility
+meniuminvader.java          factory
+player.java                 singleton, Open/Closed Principle, single responsibility
+playershot.java             factory, single responsibility
+projectile.java             factory, Open/Closed Principle
 projectilefactory.java      factory, singleton
-smallinvadder.java          factory, Open/Closed Principle
+smallinvadder.java          factory
+state.java

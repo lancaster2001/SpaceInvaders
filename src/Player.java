@@ -6,10 +6,8 @@ import java.io.IOException;
 public final class Player implements DisplayObject {
     private static Player instance;
     private static Integer lives = 3;
-    private int score = 0;
     private BufferedImage image;
-
-    private int[] coordinates = {(gameConstants.screenSize.width/2),gameConstants.killHeight};
+    private final int[] coordinates = {(gameConstants.screenSize.width/2),gameConstants.killHeight};
     //private int[] coordinates = {(gameConstants.screenSize.width/2),(gameConstants.screenSize.height-(gameConstants.screenSize.height/20))};//{x,y}
     private static final GameState gameinstance = GameState.getInstance();
 
@@ -29,23 +27,16 @@ public final class Player implements DisplayObject {
         }
         return instance;
     }
-    public final void hit(){
+    public void hit(){
         lives -= 1;
         if(lives == 0){
-            //todo
+            gameinstance.endGame();
         }
     }
     
-    public final void shoot(){
+    public void shoot(){
         int xval = (getX()+(gameConstants.playerWidth-gameConstants.playerProjectileWidth)/2);
         gameinstance.createProjectile(gameConstants.playerProjectileID, xval, coordinates[1]);
-    }
-
-    public void addScore(int points){
-        score += points;
-    }
-    public int getScore(){
-        return score;
     }
 
     public void move(char direction){

@@ -1,20 +1,17 @@
-import javax.swing.*;
-import java.awt.*;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.util.Scanner; // Import the Scanner class to read text files
-import java.util.Timer;
-import java.util.TimerTask;
 
 
-public class GameState {
+public class GameState extends State {
+    public State nextState = endGameState.getInstance();
     private int score;
+    private int round = 1;
     private static int highscore;
-    private ArrayList<invader>  invaderArray = new ArrayList<invader>();
-    private ArrayList<Projectile> projectilesArray = new ArrayList<Projectile>();
+    private final ArrayList<invader>  invaderArray = new ArrayList<>();
+    private final ArrayList<Projectile> projectilesArray = new ArrayList<>();
     private boolean invadersGoingRight = true; //true for going right
     private Timer gameTimer;
     private static final Player playerInstance = Player.getInstance();//singleton instance of Player
@@ -38,18 +35,19 @@ public class GameState {
         instance.setup();
 
     }
-    public  GameState(){
+    public GameState(){
     }
 
     private void setup(){
-
-        highscore = getHighscore();
+        loadHighscore();
         gameTimer = new Timer();
-
         invaderSetup();
-
         panelInstance.repaint();
         doGameCycle();
+    }
+    private void newRound(){
+        round += 1;
+        setup();
     }
 
     public final void invaderSetup(){
@@ -78,17 +76,17 @@ public class GameState {
             public void run() {
                 System.out.println("Timer ran " + ++i);
                 doGameCycle();
-                panelInstance.repaint();
             }
         };
+
+
+        panelInstance.repaint();
         gameTimer.schedule(task,gameConstants.tickLength );
-
-
     }
 
     public final void invaderDoCycle(){
         int rowLength = (gameConstants.numberOfInvaders/gameConstants.invaderOrder.length);
-        if (((invaderArray.get(rowLength-1).getX() + gameConstants.invaderWidth + gameConstants.invaderMoveSpeed) <= gameConstants.screenSize.width)&& invadersGoingRight == true){
+        if (((invaderArray.get(rowLength-1).getX() + gameConstants.invaderWidth + gameConstants.invaderMoveSpeed) <= gameConstants.screenSize.width)&& invadersGoingRight){
             for (int i = 0; i < gameConstants.numberOfInvaders; i++){
                 invaderArray.get(i).move(gameConstants.right);
             }
@@ -97,17 +95,12 @@ public class GameState {
                 invaderArray.get(i).move(gameConstants.left);
             }
         }else{
-            if (invadersGoingRight){
-                invadersGoingRight = false;
-            }else{
-                invadersGoingRight = true;
-            }
+            invadersGoingRight = !invadersGoingRight;
             boolean killCheck = false;
             for (int i = gameConstants.numberOfInvaders-1; i >= 0; i--){
                 if ((!killCheck)&&(invaderArray.get(i).shouldDisplay())){
                     if (invaderArray.get(i).getY() + gameConstants.invaderHeight >= gameConstants.killHeight){
-                        //todo endGame();
-
+                        newRound();
                     }
                     killCheck = true;
                 }
@@ -123,16 +116,14 @@ public class GameState {
                 p.move();
             }
         });
-        projectilesArray.forEach(p -> {
-            invaderArray.forEach(i ->{
-                if (p.shouldDisplay()&&i.shouldDisplay()) {
-                    if ((p.getClass() == PlayerShot.class) && (p.collisionDetection(i.getX(), i.getY(), i.getWidth(), i.getHeight()))) {
-                        score += i.Kill();
-                        p.hasHit();
-                    }
+        projectilesArray.forEach(p -> invaderArray.forEach(i ->{
+            if (p.shouldDisplay()&&i.shouldDisplay()) {
+                if ((p.getClass() == PlayerShot.class) && (p.collisionDetection(i.getX(), i.getY(), i.getWidth(), i.getHeight()))) {
+                    addScore(i.Kill());
+                    p.hasHit();
                 }
-            });
-        });
+            }
+        }));
     }
 
     public final void createProjectile(String type, int x, int y){
@@ -142,38 +133,49 @@ public class GameState {
         }
     }
 
-
     public final void endGame(){
         gameTimer.purge();
-                try {
-                    FileWriter myWriter = new FileWriter(gameConstants.highscore);
-                    myWriter.write(String.valueOf(playerInstance.getScore()));
-                    myWriter.close();
-                    System.out.println("highscore saved");
-                } catch (IOException e) {
-                    System.out.println("An error occurred at highscore saver.");
-                }
-
-
+        saveHighscore();
         System.out.println("Game Over");
-        AudioPlayer.playAudio("game over audio");
+        AudioPlayer.playAudio(gameConstants.gameOver);
         System.exit(0);
     }
 
-    //stubs
-    static int getHighscore(){
+    private void saveHighscore(){
+        try {
+            if (score > highscore) {
+                highscore = score;
+                FileWriter myWriter = new FileWriter(gameConstants.highscore);
+                myWriter.write(String.valueOf(highscore));
+                myWriter.close();
+                System.out.println("highscore saved\nhighscore:" + highscore);
+            }else{
+                System.out.println("score not saved\nscore:" + score + "\nhighscore:" + highscore);
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred at highscore saver.");
+        }
+    }
+    private void addScore(int val){
+        score += val;
+        System.out.println(val+" added to score\nnew score:" + score);
+        saveHighscore();
+    }
+
+    private void loadHighscore(){
         try {
             File myObj = new File("highscore.txt");
             Scanner myReader = new Scanner(myObj);
             String data = myReader.nextLine();
             System.out.println(data);
             myReader.close();
-            return Integer.parseInt(data);
+            highscore = Integer.parseInt(data);
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred at highscore reader.");
-
         }
-        return 99999;
+    }
+    private int getHighscore(){
+        return highscore;
     }
     public final ArrayList<invader> getInvaderArray() {
         return invaderArray;

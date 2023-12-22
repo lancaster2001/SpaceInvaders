@@ -15,5 +15,6 @@ player.java                 singleton, Open/Closed Principle, single responsibil
 playershot.java             factory, single responsibility
 projectile.java             factory, Open/Closed Principle
 projectilefactory.java      factory, singleton
+scoreManager.java           singleton, single responsibility
 smallinvadder.java          factory
 state.java

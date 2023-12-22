@@ -7,18 +7,16 @@ import java.io.FileNotFoundException;  // Import this class to handle errors
 
 public class GameState extends State {
     public State nextState = endGameState.getInstance();
-    private int score;
     private int round = 1;
-    private static int highscore;
     private final ArrayList<invader>  invaderArray = new ArrayList<>();
     private final ArrayList<Projectile> projectilesArray = new ArrayList<>();
     private boolean invadersGoingRight = true; //true for going right
     private Timer gameTimer;
-    private static final Player playerInstance = Player.getInstance();//singleton instance of Player
-    private static final invaderFactory invaderFactoryInstance = invaderFactory.getInstance();//singleton instance of invader factory
+    private static final invaderFactory invaderFactoryInstance = invaderFactory.getInstance();
+    private static final ProjectileFactory projectileFactoryInstance = ProjectileFactory.getInstance();
     private final MainPanel panelInstance = MainPanel.getInstance();
     private final MainFrame frameInstance = MainFrame.getInstance();//needed so that frame generates
-    private static final ProjectileFactory projectileFactoryInstance = ProjectileFactory.getInstance();//singleton instance of projectile factory
+    private final ScoreManager scoreInstance = ScoreManager.getInstance();
     private static GameState instance;
 
 
@@ -36,10 +34,11 @@ public class GameState extends State {
 
     }
     public GameState(){
+        System.out.println("make sure you only print this once for gameState");
     }
 
     private void setup(){
-        loadHighscore();
+        scoreInstance.loadHighscore();
         gameTimer = new Timer();
         invaderSetup();
         panelInstance.repaint();
@@ -116,10 +115,12 @@ public class GameState extends State {
                 p.move();
             }
         });
+
         projectilesArray.forEach(p -> invaderArray.forEach(i ->{
             if (p.shouldDisplay()&&i.shouldDisplay()) {
-                if ((p.getClass() == PlayerShot.class) && (p.collisionDetection(i.getX(), i.getY(), i.getWidth(), i.getHeight()))) {
-                    addScore(i.Kill());
+                if ((p.getClass() == PlayerShot.class) &&
+                        (p.collisionDetection(i.getX(), i.getY(), i.getWidth(), i.getHeight()))) {
+                    scoreInstance.addScore(i.Kill());
                     p.hasHit();
                 }
             }
@@ -135,47 +136,10 @@ public class GameState extends State {
 
     public final void endGame(){
         gameTimer.purge();
-        saveHighscore();
+        scoreInstance.saveHighscore();
         System.out.println("Game Over");
         AudioPlayer.playAudio(gameConstants.gameOver);
         System.exit(0);
-    }
-
-    private void saveHighscore(){
-        try {
-            if (score > highscore) {
-                highscore = score;
-                FileWriter myWriter = new FileWriter(gameConstants.highscore);
-                myWriter.write(String.valueOf(highscore));
-                myWriter.close();
-                System.out.println("highscore saved\nhighscore:" + highscore);
-            }else{
-                System.out.println("score not saved\nscore:" + score + "\nhighscore:" + highscore);
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred at highscore saver.");
-        }
-    }
-    private void addScore(int val){
-        score += val;
-        System.out.println(val+" added to score\nnew score:" + score);
-        saveHighscore();
-    }
-
-    private void loadHighscore(){
-        try {
-            File myObj = new File("highscore.txt");
-            Scanner myReader = new Scanner(myObj);
-            String data = myReader.nextLine();
-            System.out.println(data);
-            myReader.close();
-            highscore = Integer.parseInt(data);
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred at highscore reader.");
-        }
-    }
-    private int getHighscore(){
-        return highscore;
     }
     public final ArrayList<invader> getInvaderArray() {
         return invaderArray;

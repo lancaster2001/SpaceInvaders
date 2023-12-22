@@ -15,6 +15,7 @@ public final class MainPanel extends JPanel {
         return instance;
     }
     private MainPanel(){
+        System.out.println("make sure you only print this once for mainPanel");
         this.setSize(gameConstants.screenSize.width, gameConstants.screenSize.height);
         this.setMinimumSize(new Dimension(600, 600));
         this.setVisible(true);

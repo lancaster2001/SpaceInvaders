@@ -5,6 +5,9 @@ public class KeyDetector implements KeyListener {
     private final Player playerInstance = Player.getInstance();
     private static final MainPanel panelInstance = MainPanel.getInstance();//singleton instance of jpanel on the mainframe
     private static KeyDetector instance;
+    private KeyDetector(){
+        System.out.println("make sure you only print this once for player");
+    }
     public static KeyDetector getInstance() {
         if(instance == null) {
             instance = new KeyDetector();

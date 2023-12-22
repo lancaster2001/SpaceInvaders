@@ -12,7 +12,8 @@ public abstract class Projectile {
     protected String imageLink;
 
     public final boolean collisionDetection(int trgtx,int trgty, int trgtWidth, int trgtHeight){
-        if (getX() <( trgtx+trgtWidth) && (getX()+getWidth()-1) > trgtx && getY() < (trgty+trgtHeight-1) && (getY()+getHeight()-1) > trgty){
+        if (getX() <( trgtx+trgtWidth) && (getX()+getWidth()-1) > trgtx && getY() < (trgty+trgtHeight-1) &&
+                (getY()+getHeight()-1) > trgty){
             return true;
         }
         return false;
@@ -32,9 +33,9 @@ public abstract class Projectile {
             }else{
                 exists = false;
             }
-        }
+            }
         default -> System.out.println("projectile could not move");
-    };
+        }
     }
     public final boolean shouldDisplay() {
         return exists;
